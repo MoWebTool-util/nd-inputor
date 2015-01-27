@@ -6,7 +6,7 @@
 
 'use strict';
 
-var $ = require('$');
+var $ = require('jquery');
 var Timer = require('nd-timer');
 var Inputor;
 /**
