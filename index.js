@@ -21,13 +21,14 @@ var Inputor;
  Inputor = function(node, fn, params) {
   node = $(node);
   params = params || {};
+  var context=params.context||window;//方法的上下文
   var cache = node.val();
   var flag = false;
   var run = Timer.debounce(function(force) {
     if(flag) {
       var val = node.val();
       if(params.keep === true || force === true || val !== cache) {
-        fn(val, node);
+        fn.call(context,val, node);
         cache = val;
       }
       if(flag) {
@@ -40,8 +41,8 @@ var Inputor;
     run(true);
   });
   node.bind('blur.timer', function() {
-    if(params.runOnBlur) {
-      fn(node.val(), node);
+    if (!params.silentBlur) {
+      fn.call(context,node.val(), node);
     }
     flag = false;
   });
